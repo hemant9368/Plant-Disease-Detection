@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block body %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow"><span></span> AI-assisted leaf analysis</p>
+    <h1>A clearer view of<br><em>plant health.</em></h1>
+    <p class="intro">Upload a close, well-lit photo of one leaf. We’ll identify the most likely condition and show the linked care guidance.</p>
+    <div class="tips" aria-label="Tips for a better scan">
+      <div><b>01</b><span>Use natural, even light</span></div>
+      <div><b>02</b><span>Keep one leaf in focus</span></div>
+      <div><b>03</b><span>Fill most of the frame</span></div>
+    </div>
+  </div>
+
+  <section class="upload-card" aria-labelledby="upload-title">
+    <div class="card-heading">
+      <span class="status-dot"></span>
+      <p>Ready to analyse</p>
+    </div>
+    <h2 id="upload-title">Check a leaf</h2>
+    <form id="analysis-form" novalidate>
+      <label class="drop-zone" id="drop-zone" for="imagefile">
+        <img id="preview" alt="Selected leaf preview" hidden>
+        <div class="drop-content" id="drop-content">
+          <span class="upload-icon" aria-hidden="true">↑</span>
+          <strong>Drop your image here</strong>
+          <span>or browse files · JPG or PNG · max 8 MB</span>
+        </div>
+        <input name="file" id="imagefile" type="file" accept="image/png,image/jpeg" required>
+      </label>
+      <p class="file-name" id="file-name" aria-live="polite">No image selected</p>
+      <button class="primary-button" id="analyze-button" type="submit">
+        <span class="button-label">Analyse leaf</span><span aria-hidden="true">→</span>
+      </button>
+      <p class="form-message" id="form-message" role="alert" aria-live="assertive"></p>
+    </form>
+  </section>
+</section>
+{% endblock %}

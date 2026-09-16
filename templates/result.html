@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block title %}LeafLens · Analysis result{% endblock %}
+{% block body %}
+<section class="result-page">
+  <a class="back-link" href="{{ url_for('index') }}">← Analyse another leaf</a>
+  {% if app_data %}
+  <div class="result-grid">
+    <section class="result-summary">
+      <p class="eyebrow"><span></span> Analysis complete</p>
+      <h1>{{ app_data['disease_name'].replace('___', ' · ').replace('_', ' ').title() }}</h1>
+      <p class="result-copy">This is the model’s best match from its supported plant-disease classes. Use it as a starting point, then inspect the plant and local conditions.</p>
+      {% if confidence is not none %}
+      <div class="confidence"><span>Model confidence</span><strong>{{ confidence }}%</strong><div><i style="width: {{ confidence }}%"></i></div></div>
+      {% endif %}
+    </section>
+    <aside class="care-card">
+      {% if 'healthy' in app_data['disease_name'] %}
+        <span class="care-icon">✓</span>
+        <p class="card-kicker">Looking good</p>
+        <h2>No treatment required</h2>
+        <p>Continue regular watering, airflow, and routine monitoring.</p>
+      {% else %}
+        <p class="card-kicker">Suggested product</p>
+        <h2>{{ app_data['supplement name'] }}</h2>
+        {% if app_data['supplement image'] %}
+        <img class="product-image" src="{{ app_data['supplement image'] }}" alt="{{ app_data['supplement name'] }}">
+        {% endif %}
+        {% if app_data['buy link'] %}
+        <a class="primary-button product-link" href="{{ app_data['buy link'] }}" target="_blank" rel="noopener noreferrer">View product <span aria-hidden="true">↗</span></a>
+        {% endif %}
+      {% endif %}
+    </aside>
+  </div>
+  <p class="safety-note">Always follow the product label, wear appropriate protection, and check whether a treatment is approved for your crop and region.</p>
+  {% else %}
+  <div class="empty-result"><p class="eyebrow"><span></span> No result found</p><h1>Let’s start with a leaf photo.</h1><a class="primary-button" href="{{ url_for('index') }}">Go to analyser <span>→</span></a></div>
+  {% endif %}
+</section>
+{% endblock %}
