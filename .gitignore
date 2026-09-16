@@ -12,8 +12,6 @@ images/*
 .env
 test_data/
 evaluation_results.json
-data_files/
 test_data_archive/
-trained_model/
 *.zip
 *.kaggle-partial
