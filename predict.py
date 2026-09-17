@@ -5,6 +5,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 from keras.applications.vgg19 import preprocess_input
 from keras.models import load_model
 from tensorflow.keras.utils import img_to_array, load_img
@@ -12,6 +13,8 @@ from tensorflow.keras.utils import img_to_array, load_img
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_DIR = BASE_DIR / "trained_model"
 
+tf.config.threading.set_intra_op_parallelism_threads(1)
+tf.config.threading.set_inter_op_parallelism_threads(1)
 model = load_model(MODEL_DIR / "best_model.h5")
 with (MODEL_DIR / "datafile.json").open(encoding="utf-8") as file:
     CLASS_NAMES = json.load(file)
