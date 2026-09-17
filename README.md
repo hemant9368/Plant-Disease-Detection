@@ -1,6 +1,6 @@
-# LeafLens — Plant Disease Detection
+# Plant Disease Detection
 
-LeafLens is a Flask web application that classifies a plant-leaf photo with a trained VGG19-based model and presents the matching care/product information. It supports 38 leaf-condition classes from the PlantVillage-style label set.
+Plant Disease Detection is a Flask web application that classifies a plant-leaf photo with a trained VGG19-based model and presents the matching care/product information. It supports 38 leaf-condition classes from the PlantVillage-style label set.
 
 ## Run locally
 

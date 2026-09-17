@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% block title %}LeafLens · Analysis result{% endblock %}
+{% block title %}Plant Disease Detection · Analysis result{% endblock %}
 {% block body %}
 <section class="result-page">
   <a class="back-link" href="{{ url_for('index') }}">← Analyse another leaf</a>
@@ -31,7 +31,6 @@
       {% endif %}
     </aside>
   </div>
-  <p class="safety-note">Always follow the product label, wear appropriate protection, and check whether a treatment is approved for your crop and region.</p>
   {% else %}
   <div class="empty-result"><p class="eyebrow"><span></span> No result found</p><h1>Let’s start with a leaf photo.</h1><a class="primary-button" href="{{ url_for('index') }}">Go to analyser <span>→</span></a></div>
   {% endif %}
