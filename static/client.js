@@ -54,10 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const body = new FormData();
       body.append('file', selectedFile);
-      const response = await fetch('/analyze', { method: 'POST', body });
-      const result = await response.json();
+      const response = await fetch(form.action, { method: 'POST', body });
+      const responseText = await response.text();
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (_parseError) {
+        throw new Error(
+          response.ok
+            ? 'The server returned an unexpected response. Check the deployment logs.'
+            : `The upload service returned HTTP ${response.status}. Check the deployment logs.`
+        );
+      }
       if (!response.ok) throw new Error(result.error || 'Analysis failed.');
-      window.location.assign(`/result?id=${encodeURIComponent(result.product_id)}&confidence=${encodeURIComponent(result.confidence)}`);
+      window.location.assign(result.result_url);
     } catch (error) {
       message.textContent = error.message || 'Network error. Please try again.';
       button.disabled = false;

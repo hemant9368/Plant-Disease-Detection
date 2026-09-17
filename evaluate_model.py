@@ -21,6 +21,10 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 BASE_DIR = Path(__file__).resolve().parent
 
 
+def dataset_class_name(name):
+    return name.replace("Tomato___health", "Tomato___healthy")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Evaluate the PlantVillage classifier.")
     parser.add_argument(
@@ -34,7 +38,10 @@ def main():
 
     with (BASE_DIR / "trained_model" / "datafile.json").open(encoding="utf-8") as file:
         class_map = json.load(file)
-    class_names = [class_map[str(index)] for index in range(len(class_map))]
+    class_names = [
+        dataset_class_name(class_map[str(index)])
+        for index in range(len(class_map))
+    ]
 
     if not args.data_dir.is_dir():
         raise SystemExit(f"Test directory not found: {args.data_dir}")

@@ -25,11 +25,12 @@ gunicorn app:app
 
 - `app.py` — Flask routes, upload validation, and UI rendering.
 - `predict.py` — model inference and label-to-treatment lookup.
+- `templates/` — Jinja page templates.
+- `static/` — browser JavaScript, CSS, and image assets.
 - `trained_model/` — the saved model and its class-index mapping.
 - `data_files/supplement_info.csv` — treatment/product metadata.
-- `templates/` and `static/` — responsive web interface.
 
-`client/` and `server/` are legacy React/Express prototypes and are not used by the supported Flask application. Do not run them alongside Flask on port 8001.
+The project uses Flask as its only web server. There is no separate Node.js, Express, or React runtime to install or start.
 
 ## Important limitations
 

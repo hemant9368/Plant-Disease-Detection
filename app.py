@@ -5,11 +5,11 @@ import os
 import uuid
 from pathlib import Path
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, url_for
 from PIL import Image, UnidentifiedImageError
 from werkzeug.utils import secure_filename
 
-from predict import getDataFromCSV, prediction
+from predict import NotPlantImageError, getDataFromCSV, prediction
 
 BASE_DIR = Path(__file__).resolve().parent
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
@@ -48,7 +48,10 @@ def result():
 def analyze():
     file = request.files.get("file")
     if file is None or not file.filename:
-        return jsonify({"error": "Choose a plant image before analysing."}), 400
+        return jsonify({
+            "error": "Choose a plant image before analysing.",
+            "received_fields": sorted(request.form.keys()),
+        }), 400
     if not allowed_file(file.filename):
         return jsonify({"error": "Please upload a PNG or JPG image."}), 400
 
@@ -64,6 +67,8 @@ def analyze():
     file.save(upload_path)
     try:
         product_id, disease_name, confidence = prediction(upload_path)
+    except NotPlantImageError as error:
+        return jsonify({"error": f"{error}. Please upload a clear photo of a plant leaf."}), 422
     except Exception:
         app.logger.exception("Prediction failed")
         return jsonify({"error": "We could not analyse that image. Please try another clear leaf photo."}), 500
@@ -74,6 +79,11 @@ def analyze():
         "product_id": product_id,
         "disease_name": disease_name,
         "confidence": round(confidence * 100, 1),
+        "result_url": url_for(
+            "result",
+            id=product_id,
+            confidence=round(confidence * 100, 1),
+        ),
     })
 
 

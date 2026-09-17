@@ -18,7 +18,7 @@
       <p>Ready to analyse</p>
     </div>
     <h2 id="upload-title">Check a leaf</h2>
-    <form id="analysis-form" novalidate>
+    <form id="analysis-form" action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data" novalidate>
       <label class="drop-zone" id="drop-zone" for="imagefile">
         <img id="preview" alt="Selected leaf preview" hidden>
         <div class="drop-content" id="drop-content">
